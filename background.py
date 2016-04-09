@@ -34,7 +34,6 @@ bmpPath = root+"/Image.bmp"
 #Lap dance
 import platform
 system = platform.system()
-print(system)
 if system == "Windows":
 	setWindowsBackground(basePath)
 elif system  == 'linux':
