@@ -1,0 +1,5 @@
+('C:\\Users\\Arnaud\\depot\\BonjourBackground\\build\\background\\beautifulsoup4-4.4.0-py3.5.egg',
+ None,
+ {'*.pyo', '*.pyc', '*.pyd', '*.so', 'EGG-INFO', '*.py'},
+ 'DATA',
+ [])
