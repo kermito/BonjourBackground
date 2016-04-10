@@ -1,3 +1,4 @@
+#getting the picture
 def getBackgound(page):
     import bs4 as BeautifulSoup
     import pprint
@@ -5,6 +6,7 @@ def getBackgound(page):
     imageItem = soup.find("div",attrs={"class":"photo"}).find("img")
     return(imageItem['src'])
 
+#Os background application
 def setGnomeBackground(imagePath):
 	import os
 	os.system("gsettings set org.gnome.desktop.background draw-background false;")
@@ -18,13 +20,24 @@ def setWindowsBackground(imagePath):
 	os.system("RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters")
 
 #getting some sexy page
-import urllib.request
-content = urllib.request.urlopen("http://dites.bonjourmadame.fr/").read()
+try:
+	import urllib
+	content = urllib.urlopen("http://dites.bonjourmadame.fr/").read()
+except Exception, e:
+	import urllib.request
+	content = urllib.request.urlopen("http://dites.bonjourmadame.fr/").read()
+
 url = getBackgound(content)
 
 #Downloading the sexy girl
-import urllib
-urllib.request.urlretrieve(url, "Image.jpg")
+try:
+	import urllib
+	content = urllib.request.urlretrieve(url, "Image.jpg")
+except Exception, e:
+	import urllib
+	content = urllib.urlretrieve(url, "Image.jpg")
+	
+
 import os.path
 root = os.path.abspath("")
 basePath = root+"/Image.jpg"
@@ -34,9 +47,11 @@ bmpPath = root+"/Image.bmp"
 #Lap dance
 import platform
 system = platform.system()
+#print(system)
 if system == "Windows":
 	setWindowsBackground(basePath)
-elif system  == 'linux':
+elif system  == 'Linux':
+	print"nux"
 	from PIL import Image
 	Image.open(basePath).save(bmpPath)
 	setGnomeBackground(bmpPath)
