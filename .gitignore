@@ -1,3 +1,6 @@
-Image.bmp
-Image.jpg
+*.bmp
+*.jpg
+*.png
 .idea/
+build/
+dist/

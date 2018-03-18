@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 try:
     from PIL import Image
     from PIL import ImageFile
@@ -72,7 +73,7 @@ try:
 except Exception:
 	import urllib
 	content = urllib.urlretrieve(url, "Image.jpg")
-	
+
 
 import os.path
 root = os.path.abspath("")
