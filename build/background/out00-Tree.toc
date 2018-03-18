@@ -1,5 +1,0 @@
-('C:\\Users\\admin\\depots\\BonjourBackground\\build\\background\\beautifulsoup4-4.4.0-py3.5.egg',
- None,
- {'*.so', '*.pyd', '*.pyc', 'EGG-INFO', '*.pyo', '*.py'},
- 'DATA',
- [])
