@@ -4,9 +4,9 @@ block_cipher = None
 
 
 a = Analysis(['background.py'],
-             pathex=['C:\\Users\\admin\\depots\\BonjourBackground'],
-             binaries=None,
-             datas=None,
+             pathex=['/home/kermito/depot/BonjourBackground'],
+             binaries=[],
+             datas=[],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
