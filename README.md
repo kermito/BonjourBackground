@@ -9,7 +9,7 @@ sh install.sh
 ```
 
 * On windows :
-Download the executable version and add it to your startup
+[Download](http://arnaudtriolet.fr/BonjourBackground.zip "Download") the executable version and add it to your startup
 
 ## 🏃‍ Run the script
 ```bash
