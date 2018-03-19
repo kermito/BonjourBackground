@@ -76,7 +76,7 @@ except Exception:
 
 
 import os.path
-root = os.path.abspath("")
+root = os.path.abspath(os.path.dirname(__file__))
 #print(basePath)
 
 #Lap dance
