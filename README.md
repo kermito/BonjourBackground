@@ -24,5 +24,5 @@ python script.py
 ## 🐞 Issue
 You must run the script in a folder wich have 777 autorisation with your user
 ```bash
-sudo chmod 777 -R ./ && python script.py
+sudo chmod 777 -R ./ && python backgound.py
 ```
