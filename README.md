@@ -1,15 +1,20 @@
 # 🖥️ 👙 BonjourBackground
 
 #### Every day a new sexy girl in background
-Made for gnome shell and Windows, this script get the day pick from http://dites.bonjourmadame.fr and put it as wallpaper for your linux machine,You can add the following command to your startup to change the wallpaper automatically
+Made for gnome shell and Windows, this script get the day pick from [Bonjour madame](http://dites.bonjourmadame.fr "Bonjour madame") and put it as wallpaper for your linux machine,You can add the following command to your startup to change the wallpaper automatically
 ## 🔧 Installation
-* On ubuntu or debian distrib :
+#### On ubuntu or debian distrib :
 ```bash
 sh install.sh
 ```
 
-* On windows :
-[Download](http://arnaudtriolet.fr/BonjourBackground.zip "Download") the executable version and add it to your startup
+#### On windows :
+*   If you have python and pip installed :
+```
+  1. Run install.bat
+  2. Run addToWindowsStartup.cmd as Administrator
+```
+*   Or you can [Download](http://arnaudtriolet.fr/BonjourBackground.zip "Download") the executable version and add it to your startup
 
 ## 🏃‍ Run the script
 ```bash
