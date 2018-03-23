@@ -23,6 +23,7 @@ except Exception:
 def parseArgs():
     parser = argparse.ArgumentParser(description='Sexy girl in background')
     parser.add_argument('--folder' ,help='Folder where picture are saved')
+    parser.add_argument('--space', action='store_true', help='Use NASA pic of the day')
     return parser
 
 
@@ -31,6 +32,12 @@ def getBackgound(page):
     soup = BeautifulSoup.BeautifulSoup(page, "html.parser")
     imageItem = soup.find("div",attrs={"class":"photo"}).find("img")
     return(imageItem['src'])
+
+#getting the picture
+def getSpaceBackground(page):
+    soup = BeautifulSoup.BeautifulSoup(page, "html.parser")
+    imageItem = soup.find("img")
+    return("https://apod.nasa.gov/apod/"+imageItem['src'])
 
 
 #Os background application
@@ -66,11 +73,20 @@ def main(argv):
         pass
 
     #getting some sexy page
-    try:
-    	content = urllib.urlopen("http://dites.bonjourmadame.fr/").read()
-    except Exception:
-    	content = urllib.request.urlopen("http://dites.bonjourmadame.fr/").read()
-    url = getBackgound(content)
+    if argv.space:
+        try:
+            content = urllib.urlopen("https://apod.nasa.gov/apod/astropix.html").read()
+        except Exception:
+            content = urllib.request.urlopen("https://apod.nasa.gov/apod/astropix.html").read()
+        url = getSpaceBackground(content)
+        pass
+    else:
+        try:
+            content = urllib.urlopen("http://dites.bonjourmadame.fr/").read()
+        except Exception:
+            content = urllib.request.urlopen("http://dites.bonjourmadame.fr/").read()
+        url = getBackgound(content)
+
     basePath = root + DS + "Image.jpg"
     #Downloading the sexy girl
     try:
