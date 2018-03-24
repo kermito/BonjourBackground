@@ -9,6 +9,6 @@ SET FOLDER=%~dp0
 SET SCRIPT=%~dp0runscript.cmd
 SET EXE=%~dp0dist\BonjourBackground\BonjourBackground.exe
 echo @echo off>%SCRIPT%
-echo %EXE% --folder %FOLDER%>>%SCRIPT%
+echo %EXE% --cli --folder %FOLDER%>>%SCRIPT%
 copy "%SCRIPT%" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Startup"
 pause
