@@ -1,2 +1,2 @@
-#!/usr/bin/env bash
+@echo off
 pyinstaller BonjourBackground.spec -y

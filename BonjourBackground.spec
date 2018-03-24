@@ -6,7 +6,7 @@ block_cipher = None
 a = Analysis(['background.py'],
              pathex=['/home/kermito/depot/BonjourBackground'],
              binaries=[],
-             datas=[],
+             datas=[("icon.png", ".")],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -19,15 +19,15 @@ pyz = PYZ(a.pure, a.zipped_data,
 exe = EXE(pyz,
           a.scripts,
           exclude_binaries=True,
-          name='background',
+          name='BonjourBackground',
           debug=False,
           strip=False,
           upx=True,
-          console=True )
+          console=True , icon='icon.ico')
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
                a.datas,
                strip=False,
                upx=True,
-               name='background')
+               name='BonjourBackground')

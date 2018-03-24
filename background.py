@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Tkinter import Tk, Label, Button, PhotoImage, BOTTOM
+from Tkinter import Tk, Label, Button, BOTTOM, Toplevel, PhotoImage
 from PIL import Image
 import bs4 as BeautifulSoup
 import os
+import sys
+import ctypes
 import urllib
 import os.path
 import platform
 import argparse
+mainWin = None
 
 
 def parseArgs():
@@ -116,6 +119,85 @@ def setBackground(url, root):
     return result
 
 
+def createWinStartup(argv, param):
+    fileStartup = os.path.expanduser('%ProgramData%\Microsoft\Windows'
+                                     '\Start Menu\Programs\Startup'
+                                     '\BonjourBackground.cmd')
+    file = open(fileStartup, "w")
+    exe = os.path.abspath("BonjourBackground.exe")
+    tmp = "%appdata%"
+    script = '@echo off\n%s --cli --folder %s%s' % exe, tmp, param
+    file.write(script)
+    file.close()
+    return os.path.exists(fileStartup)
+
+
+def createLinStartup(argv, param):
+    fileStartup = os.path.expanduser('~/.config/autostart/'
+                                     'BonjourBackground.desktop')
+    file = open(fileStartup, "w+")
+    exe = os.path.abspath("dist/BonjourBackground/BonjourBackground")
+    icon = os.path.abspath("icon.png")
+    script = "[Desktop Entry]\n"
+    script += "Type=Application\n"
+    script += "Name=BonjourBackground\n"
+    script += "Exec=.%s --cli%s\n" % (exe, param)
+    script += "Icon=%s\n" % icon
+    script += "Comment=Every day a new background\n"
+    script += "X-GNOME-Autostart-enabled=true\n"
+    file.write(script)
+    file.close()
+    return os.path.exists(fileStartup)
+
+
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except Exception:
+        return False
+
+
+def createStartupScript(argv, param):
+    system = platform.system()
+    if system == 'Windows':
+        success = createWinStartup(argv, param)
+        pass
+    elif system == "Linux":
+        success = createLinStartup(argv, param)
+        pass
+    else:
+        success = False
+
+    if success:
+        message('Success')
+        pass
+    else:
+        message("An error as occured")
+    pass
+
+
+def message(msg):
+    global mainWin
+    sub = Toplevel(mainWin)
+    sub.wm_title("BonjourBackground - %s" % msg)
+    lab = Label(sub, text=msg)
+    lab.pack(side="top", fill="both", expand=True, padx=50, pady=20)
+    pass
+
+
+def addStartup(argv, params):
+    system = platform.system()
+    if system == 'Windows':
+        if is_admin():
+            createStartupScript(argv, params)
+        else:
+            # Re-run the program with admin rights
+            ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable,
+                                                "", None, 1)
+    elif system == "Linux":
+        createStartupScript(argv, params)
+
+
 def runGui(argv):
     def bonjourmadame(argv):
         argv.common = False
@@ -141,28 +223,45 @@ def runGui(argv):
         setBackground(url, root)
         pass
 
-    fenetre = Tk()
-    fenetre.title("BonjourBackground")
-    fenetre.geometry("300x250")
-    img = PhotoImage(file=os.path.abspath('icon.png'))
-    fenetre.tk.call('wm', 'iconphoto', fenetre._w, img)
-    label = Label(fenetre, text="BonjourBackground", font=("Courier", 18),
+    global mainWin
+    mainWin = Tk()
+    img = PhotoImage(file='icon.png')
+    mainWin.tk.call('wm', 'iconphoto', mainWin._w, img)
+    mainWin.title("BonjourBackground")
+    mainWin.geometry("300x400")
+    label = Label(mainWin, text="BonjourBackground", font=("Courier", 18),
                   pady=30)
     label.pack()
-    bouton = Button(fenetre, text="Bonjour Madame",
+
+    bouton = Button(mainWin, text="Bonjour Madame",
                     command=lambda: bonjourmadame(argv),
                     width=100)
     bouton.pack(pady=10, padx=10)
-    bouton = Button(fenetre, text="NASA", command=lambda: nasa(argv),
+
+    bouton = Button(mainWin, text="Bonjour Madame on startup",
+                    command=lambda: addStartup(argv, ""),
                     width=100)
     bouton.pack(pady=10, padx=10)
-    bouton = Button(fenetre, text="La photo du jour",
+
+    bouton = Button(mainWin, text="NASA", command=lambda: nasa(argv),
+                    width=100)
+    bouton.pack(pady=10, padx=10)
+    bouton = Button(mainWin, text="NASA on startup",
+                    command=lambda: addStartup(argv, " --space"), width=100)
+    bouton.pack(pady=10, padx=10)
+
+    bouton = Button(mainWin, text="La photo du jour",
                     command=lambda: laphoto(argv),
                     width=100)
     bouton.pack(pady=10, padx=10)
-    bouton = Button(fenetre, text="Fermer", command=fenetre.quit, width=50)
+    bouton = Button(mainWin, text="La photo du jour on startup",
+                    command=lambda: addStartup(argv, "--common"),
+                    width=100)
+    bouton.pack(pady=10, padx=10)
+
+    bouton = Button(mainWin, text="Fermer", command=mainWin.quit, width=50)
     bouton.pack(side=BOTTOM)
-    return fenetre.mainloop()
+    return mainWin.mainloop()
 
 
 def runCli(argv):
