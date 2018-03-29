@@ -138,12 +138,12 @@ def createLinStartup(argv, param):
     fileStartup = os.path.expanduser('~/.config/autostart/'
                                      'BonjourBackground.desktop')
     file = open(fileStartup, "w+")
-    exe = os.path.abspath("dist/BonjourBackground/BonjourBackground")
+    exe = os.path.abspath("BonjourBackground")
     icon = os.path.abspath("icon.png")
     script = "[Desktop Entry]\n"
     script += "Type=Application\n"
     script += "Name=BonjourBackground\n"
-    script += "Exec=.%s --cli%s\n" % (exe, param)
+    script += "Exec=%s --cli%s\n" % (exe, param)
     script += "Icon=%s\n" % icon
     script += "Comment=Every day a new background\n"
     script += "X-GNOME-Autostart-enabled=true\n"
