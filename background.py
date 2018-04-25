@@ -120,13 +120,15 @@ def setBackground(url, root):
 
 
 def createWinStartup(argv, param):
-    fileStartup = os.path.expanduser('%ProgramData%\Microsoft\Windows'
-                                     '\Start Menu\Programs\Startup'
-                                     '\BonjourBackground.cmd')
+    programDataPath = os.getenv('APPDATA')
+    fileStartup = programDataPath
+    fileStartup += '\Microsoft\Windows\Start Menu\Programs\Startup\BonjourBackground.cmd'
+                  
+    print(fileStartup)
     file = open(fileStartup, "w")
     exe = os.path.abspath("BonjourBackground.exe")
     tmp = "%appdata%"
-    script = '@echo off\n%s --cli --folder %s%s' % exe, tmp, param
+    script = '@echo off\n%s --cli --folder %s%s' % (exe, tmp, param)
     file.write(script)
     file.close()
     return os.path.exists(fileStartup)
@@ -152,6 +154,7 @@ def createLinStartup(argv, param):
 
 def is_admin():
     try:
+        print(ctypes.windll.shell32.IsUserAnAdmin())
         return ctypes.windll.shell32.IsUserAnAdmin()
     except Exception:
         return False
@@ -225,8 +228,13 @@ def runGui(argv):
 
     global mainWin
     mainWin = Tk()
-    img = PhotoImage(file='icon.png')
-    mainWin.tk.call('wm', 'iconphoto', mainWin._w, img)
+    try:
+        img = PhotoImage(file='icon.png')
+        mainWin.tk.call('wm', 'iconphoto', mainWin._w, img)
+        pass
+    except Exception as e:
+        iconPath = os.path.abspath('icon.ico')
+        mainWin.iconbitmap(default=iconPath)
     mainWin.title("BonjourBackground")
     mainWin.geometry("300x400")
     label = Label(mainWin, text="BonjourBackground", font=("Courier", 18),
